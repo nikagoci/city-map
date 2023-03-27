@@ -1,5 +1,11 @@
+import Mapbox from "@/component/mapbox/mapbox";
+
 export default function Home() {
   return (
-    <h1 className='text-red-300'>red</h1>
-  )
+    <header>
+      <div className="container mx-auto">
+        <Mapbox />
+      </div>
+    </header>
+  );
 }
