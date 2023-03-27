@@ -1,7 +1,7 @@
-import * as React from "react";
 import Map, { Marker } from "react-map-gl";
 
 import "mapbox-gl/dist/mapbox-gl.css";
+import UserLocation from "./user-location";
 
 const fakeData = [
   {
@@ -28,6 +28,12 @@ const fakeData = [
 ];
 
 export default function Mapbox() {
+
+  const handleMarkerClick = (name: string) => {
+    console.log(name);
+  };
+
+  
   return (
     <Map
       initialViewState={{
@@ -39,12 +45,14 @@ export default function Mapbox() {
       mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
       mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN}
     >
+      <UserLocation />
       {fakeData.map((data) => (
         <Marker
           key={data.name}
           color="red"
           longitude={data.coordinates.longitude}
           latitude={data.coordinates.latitude}
+          onClick={() => handleMarkerClick(data.name)}
         />
       ))}
     </Map>
