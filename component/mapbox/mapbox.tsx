@@ -1,6 +1,8 @@
+import {Dispatch, SetStateAction} from 'react'
 import Map, { Marker } from "react-map-gl";
 
 import "mapbox-gl/dist/mapbox-gl.css";
+
 import UserLocation from "./user-location";
 
 const fakeData = [
@@ -27,10 +29,14 @@ const fakeData = [
   },
 ];
 
-export default function Mapbox() {
+interface Props {
+  setLocationClicked: Dispatch<SetStateAction<string>>
+}
+
+export default function Mapbox({setLocationClicked}: Props) {
 
   const handleMarkerClick = (name: string) => {
-    console.log(name);
+    setLocationClicked(name)
   };
 
   
