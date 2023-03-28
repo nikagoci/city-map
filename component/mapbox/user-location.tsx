@@ -17,13 +17,12 @@ export default function UserLocation() {
     );
   }, []);
 
-  console.log(curPosition);
 
   return (
     <>
       {curPosition && (
         <Marker latitude={curPosition.lat} longitude={curPosition.long}>
-          <MdMyLocation />
+           <MdMyLocation size={40} color="blue" className='current-location' />
         </Marker>
       )}
     </>

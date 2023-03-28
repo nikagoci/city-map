@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.current-location {
+    animation-name: hide-show;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes hide-show {
+    50% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1;
+    }
+}
