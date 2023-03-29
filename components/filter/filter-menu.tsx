@@ -7,7 +7,8 @@ const categories: CategoryEnum[] = [
   CategoryEnum.Bridge,
   CategoryEnum.Museum,
   CategoryEnum.Garden,
-  CategoryEnum.Historical,
+  CategoryEnum.Reserve,
+  CategoryEnum.Aquatica
 ];
 
 interface Props {
