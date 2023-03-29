@@ -3,9 +3,13 @@ import { useState } from "react";
 import MusicPlayer from "@/components/audio/music-player";
 import Mapbox from "@/components/mapbox/mapbox";
 import FilterMenu from "@/components/filter/filter-menu";
+import { CategoryEnum } from "@/libs/interfaces";
 
 export default function Home() {
   const [locationClicked, setLocationClicked] = useState("");
+  const [categorySelected, setCategorySelected] = useState<CategoryEnum[] | []>([]);
+
+  console.log(categorySelected)
 
   return (
     <header>
@@ -14,7 +18,7 @@ export default function Home() {
           <Mapbox setLocationClicked={setLocationClicked} />
           <MusicPlayer locationClicked={locationClicked} />
         </div>
-        <FilterMenu />
+        <FilterMenu setCategorySelected={setCategorySelected} />
       </div>
     </header>
   );

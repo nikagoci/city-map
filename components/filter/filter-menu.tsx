@@ -1,4 +1,5 @@
 import { CategoryEnum } from "@/libs/interfaces";
+import { Dispatch, SetStateAction } from "react";
 import SingleCategory from "./single-category";
 
 const categories: CategoryEnum[] = [
@@ -9,13 +10,26 @@ const categories: CategoryEnum[] = [
   CategoryEnum.Historical,
 ];
 
-export default function FilterMenu() {
+interface Props {
+  setCategorySelected: Dispatch<SetStateAction<[] | CategoryEnum[]>>
+}
+
+export default function FilterMenu({setCategorySelected}: Props) {
+
+  const addCategory = (category: CategoryEnum) => {
+    setCategorySelected((prev) => [...prev, category]);
+  }
+
+  const removeCategory = (category: CategoryEnum) => {
+    setCategorySelected((prev) => prev.filter(el => el !== category))
+  }
+
   return (
     <div>
       <h1 className="mb-4 text-lg font-bold">Category Filter</h1>
       <ul className="basis-[15%] space-y-4">
         {categories.map((category) => (
-          <SingleCategory key={category} category={category} />
+          <SingleCategory key={category} category={category} addCategory={addCategory} removeCategory={removeCategory} />
         ))}
       </ul>
     </div>
