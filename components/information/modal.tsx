@@ -59,8 +59,8 @@ export default function Modal({ isOpen, openModal, closeModal }: Props) {
                       you an email with all of the details of your order.
                     </p> */}
                     {markerWithColors.map(marker => (
-                      <div className="flex items-center mb-3">
-                        <Image src={marker.src} alt={marker.category} width={28} height={28} />
+                      <div key={marker.category} className="flex items-center mb-3">
+                        <Image src={marker.src} style={{width: 'auto', height: 'auto'}} alt={marker.category} width={28} height={28} />
                         <span className="w-12 h-[3px] mx-5 bg-cyan-600"></span>
                         <h3 className="text-lg font-semibold">{marker.category}</h3>
                       </div>
