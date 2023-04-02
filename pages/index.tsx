@@ -7,15 +7,13 @@ import { CategoryEnum } from "@/libs/interfaces";
 
 export default function Home() {
   const [locationClicked, setLocationClicked] = useState("");
-  const [categorySelected, setCategorySelected] = useState<CategoryEnum[] | []>([]);
-
-  console.log(categorySelected)
+  const [categorySelected, setCategorySelected] = useState<CategoryEnum[]>([]);
 
   return (
     <header>
       <div className="flex w-full px-12 mt-12 gap-x-4">
         <div className="basis-[85%]">
-          <Mapbox setLocationClicked={setLocationClicked} />
+          <Mapbox setLocationClicked={setLocationClicked} categorySelected={categorySelected} />
           <MusicPlayer locationClicked={locationClicked} />
         </div>
         <FilterMenu setCategorySelected={setCategorySelected} />

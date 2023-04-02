@@ -1,10 +1,10 @@
-import {Dispatch, SetStateAction} from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Map, { Marker } from "react-map-gl";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import UserLocation from "./user-location";
-import { CategoryEnum, LocationInterface } from '@/libs/interfaces';
+import { CategoryEnum, LocationInterface } from "@/libs/interfaces";
 
 const LOCATIONS: LocationInterface[] = [
   {
@@ -13,7 +13,7 @@ const LOCATIONS: LocationInterface[] = [
       longitude: 42.7043,
       latitude: 42.2772,
     },
-    category: CategoryEnum.Monastery
+    category: CategoryEnum.Monastery,
   },
   {
     name: "Gelati",
@@ -21,7 +21,7 @@ const LOCATIONS: LocationInterface[] = [
       longitude: 42.7681,
       latitude: 42.2947,
     },
-    category: CategoryEnum.Monastery
+    category: CategoryEnum.Monastery,
   },
   {
     name: "Motsameta",
@@ -29,96 +29,112 @@ const LOCATIONS: LocationInterface[] = [
       longitude: 42.7591,
       latitude: 42.2823,
     },
-    category: CategoryEnum.Monastery
+    category: CategoryEnum.Monastery,
   },
   {
     name: "KutaisiBotanicalGarden",
     coordinates: {
       longitude: 42.7125,
-      latitude: 42.2791
+      latitude: 42.2791,
     },
-    category: CategoryEnum.Garden
+    category: CategoryEnum.Garden,
   },
   {
     name: "WhiteBridge",
     coordinates: {
       longitude: 42.7004,
-      latitude: 42.2687
+      latitude: 42.2687,
     },
-    category: CategoryEnum.Bridge
+    category: CategoryEnum.Bridge,
   },
   {
     name: "KutaisiHistoricalMuseum",
     coordinates: {
-      longitude: 42.7040,
-      latitude: 42.2687
+      longitude: 42.704,
+      latitude: 42.2687,
     },
-    category: CategoryEnum.Museum
+    category: CategoryEnum.Museum,
   },
   {
-   name: "MuseumOfMilitaryGlory",
-   coordinates: {
-    longitude: 42.7048,
-    latitude: 42.2730
-   },
-   category: CategoryEnum.Museum
+    name: "MuseumOfMilitaryGlory",
+    coordinates: {
+      longitude: 42.7048,
+      latitude: 42.273,
+    },
+    category: CategoryEnum.Museum,
   },
   {
     name: "Sataplia",
     coordinates: {
       longitude: 42.6733,
-      latitude: 42.3156
+      latitude: 42.3156,
     },
-    category: CategoryEnum.Reserve
+    category: CategoryEnum.Reserve,
   },
   {
-   name: "KolkhaFountain",
-   coordinates: {
-    longitude: 42.7055,
-    latitude: 42.2715
-   } ,
-   category: CategoryEnum.Aquatica
+    name: "KolkhaFountain",
+    coordinates: {
+      longitude: 42.7055,
+      latitude: 42.2715,
+    },
+    category: CategoryEnum.Aquatica,
   },
   {
     name: "GegutiPalace",
     coordinates: {
       longitude: 42.6912,
-      latitude: 42.1903
+      latitude: 42.1903,
     },
-    category: CategoryEnum.Reserve
-  }
+    category: CategoryEnum.Reserve,
+  },
 ];
 
 interface Props {
-  setLocationClicked: Dispatch<SetStateAction<string>>
+  setLocationClicked: Dispatch<SetStateAction<string>>;
+  categorySelected: CategoryEnum[];
 }
 
-export default function Mapbox({setLocationClicked}: Props) {
+export default function Mapbox({
+  setLocationClicked,
+  categorySelected,
+}: Props) {
+  const [allLocation, setAllLocation] =
+    useState<LocationInterface[]>(LOCATIONS);
 
   const handleMarkerClick = (name: string) => {
-    setLocationClicked(name)
+    setLocationClicked(name);
   };
 
   function detectColor(category: CategoryEnum): string {
-    switch (category){
+    switch (category) {
       case CategoryEnum.Aquatica:
-        return 'blue'
+        return "blue";
       case CategoryEnum.Reserve:
-        return 'green'
+        return "green";
       case CategoryEnum.Bridge:
-        return 'orange'
+        return "orange";
       case CategoryEnum.Garden:
-        return 'lime'
+        return "lime";
       case CategoryEnum.Monastery:
-        return 'red'
+        return "red";
       case CategoryEnum.Museum:
-        return 'dark'
+        return "dark";
       default:
-        return 'red'
+        return "red";
     }
   }
 
-  
+  useEffect(() => {
+    if (categorySelected.length > 0) {
+      const filteredLocations = LOCATIONS.filter((location) =>
+        categorySelected.includes(location.category)
+      );
+      setAllLocation(filteredLocations);
+    } else {
+      setAllLocation(LOCATIONS);
+    }
+  }, [categorySelected]);
+
   return (
     <Map
       initialViewState={{
@@ -131,7 +147,7 @@ export default function Mapbox({setLocationClicked}: Props) {
       mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN}
     >
       <UserLocation />
-      {LOCATIONS.map((location) => (
+      {allLocation.map((location) => (
         <Marker
           key={location.name}
           color={detectColor(location.category)}
