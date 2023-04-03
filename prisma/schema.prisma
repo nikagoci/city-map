@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+type coordinateType {
+  longitude Float
+  latitude  Float
+}
+
+enum categoryEnum {
+  Monastery
+  Bridge
+  Museum
+  Garden
+  Reserve
+  Aquatica
+}
+
+model Landmark {
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  name        String         @unique
+  coordinates coordinateType
+  category    categoryEnum
+}
