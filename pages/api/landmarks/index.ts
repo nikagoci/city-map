@@ -22,10 +22,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 landmarks = await getLandmarks();
               }
         
-
-            console.log(landmarks)
-
-
             return res.status(200).json({
                 status: 'success',
                 landmarks
@@ -40,15 +36,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         try {
             const createdLandmark = await createLandmark(req.body)
             
-
             if(!createdLandmark.id) {
                 return res.status(400).json({
                     status: 'fail',
                     message: createdLandmark.meta 
                 })
             }
-
-
 
             return res.status(200).json({
                 status: 'success',

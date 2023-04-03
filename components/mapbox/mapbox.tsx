@@ -5,133 +5,34 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 import UserLocation from "./user-location";
 import { CategoryEnum, LocationInterface } from "@/libs/interfaces";
-
-const LOCATIONS: LocationInterface[] = [
-  {
-    name: "Bagrati",
-    coordinates: {
-      longitude: 42.7043,
-      latitude: 42.2772,
-    },
-    category: CategoryEnum.Monastery,
-  },
-  {
-    name: "Gelati",
-    coordinates: {
-      longitude: 42.7681,
-      latitude: 42.2947,
-    },
-    category: CategoryEnum.Monastery,
-  },
-  {
-    name: "Motsameta",
-    coordinates: {
-      longitude: 42.7591,
-      latitude: 42.2823,
-    },
-    category: CategoryEnum.Monastery,
-  },
-  {
-    name: "KutaisiBotanicalGarden",
-    coordinates: {
-      longitude: 42.7125,
-      latitude: 42.2791,
-    },
-    category: CategoryEnum.Garden,
-  },
-  {
-    name: "WhiteBridge",
-    coordinates: {
-      longitude: 42.7004,
-      latitude: 42.2687,
-    },
-    category: CategoryEnum.Bridge,
-  },
-  {
-    name: "KutaisiHistoricalMuseum",
-    coordinates: {
-      longitude: 42.704,
-      latitude: 42.2687,
-    },
-    category: CategoryEnum.Museum,
-  },
-  {
-    name: "MuseumOfMilitaryGlory",
-    coordinates: {
-      longitude: 42.7048,
-      latitude: 42.273,
-    },
-    category: CategoryEnum.Museum,
-  },
-  {
-    name: "Sataplia",
-    coordinates: {
-      longitude: 42.6733,
-      latitude: 42.3156,
-    },
-    category: CategoryEnum.Reserve,
-  },
-  {
-    name: "KolkhaFountain",
-    coordinates: {
-      longitude: 42.7055,
-      latitude: 42.2715,
-    },
-    category: CategoryEnum.Aquatica,
-  },
-  {
-    name: "GegutiPalace",
-    coordinates: {
-      longitude: 42.6912,
-      latitude: 42.1903,
-    },
-    category: CategoryEnum.Reserve,
-  },
-];
+import detectColor from "@/libs/colorDetector";
 
 interface Props {
   setLocationClicked: Dispatch<SetStateAction<string>>;
   categorySelected: CategoryEnum[];
+  landmarks: LocationInterface[];
 }
 
 export default function Mapbox({
   setLocationClicked,
   categorySelected,
+  landmarks
 }: Props) {
   const [allLocation, setAllLocation] =
-    useState<LocationInterface[]>(LOCATIONS);
+    useState<LocationInterface[]>(landmarks);
 
   const handleMarkerClick = (name: string) => {
     setLocationClicked(name);
   };
 
-  function detectColor(category: CategoryEnum): string {
-    switch (category) {
-      case CategoryEnum.Aquatica:
-        return "blue";
-      case CategoryEnum.Reserve:
-        return "green";
-      case CategoryEnum.Bridge:
-        return "orange";
-      case CategoryEnum.Garden:
-        return "lime";
-      case CategoryEnum.Monastery:
-        return "red";
-      case CategoryEnum.Museum:
-        return "dark";
-      default:
-        return "red";
-    }
-  }
-
   useEffect(() => {
     if (categorySelected.length > 0) {
-      const filteredLocations = LOCATIONS.filter((location) =>
+      const filteredLocations = landmarks.filter((location) =>
         categorySelected.includes(location.category)
       );
       setAllLocation(filteredLocations);
     } else {
-      setAllLocation(LOCATIONS);
+      setAllLocation(landmarks);
     }
   }, [categorySelected]);
 
