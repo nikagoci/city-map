@@ -1,9 +1,15 @@
 import prisma from ".";
-import { LocationInterface } from "../interfaces";
+import { CategoryEnum, LocationInterface } from "../interfaces";
 
-export async function getLandmarks(){
+export async function getLandmarks(query?: CategoryEnum){
     try {
-        const landmarks = await prisma.landmark.findMany()
+        let landmarks;
+        if(query){
+            landmarks = await prisma.landmark.findMany({where: { category: query }})
+
+        } else {
+            landmarks = await prisma.landmark.findMany()
+        }
         
         return landmarks
     } catch (err: any) {
