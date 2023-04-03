@@ -22,6 +22,7 @@ export default function Home({landmarks}: Props) {
           <Mapbox
             setLocationClicked={setLocationClicked}
             categorySelected={categorySelected}
+            setCategorySelected={setCategorySelected}
             landmarks={landmarks}
           />
           <MusicPlayer locationClicked={locationClicked} />
