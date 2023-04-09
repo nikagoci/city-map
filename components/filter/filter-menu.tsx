@@ -14,9 +14,10 @@ const categories: CategoryEnum[] = [
 
 interface Props {
   setCategorySelected: Dispatch<SetStateAction<[] | CategoryEnum[]>>;
+  categorySelected: CategoryEnum[]
 }
 
-export default function FilterMenu({ setCategorySelected }: Props) {
+export default function FilterMenu({ setCategorySelected, categorySelected }: Props) {
   const addCategory = (category: CategoryEnum) => {
     setCategorySelected((prev) => [...prev, category]);
   };
@@ -35,6 +36,7 @@ export default function FilterMenu({ setCategorySelected }: Props) {
             category={category}
             addCategory={addCategory}
             removeCategory={removeCategory}
+            categorySelected={categorySelected}
           />
         ))}
       </ul>

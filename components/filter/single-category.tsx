@@ -1,18 +1,23 @@
 import { CategoryEnum } from "@/libs/interfaces";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 interface Props {
   category: CategoryEnum;
   addCategory: (category: CategoryEnum) => void;
   removeCategory: (category: CategoryEnum) => void;
+  categorySelected: CategoryEnum[]
 }
 
 export default function SingleCategory({
   category,
   addCategory,
   removeCategory,
+  categorySelected
 }: Props) {
   const [isChecked, setIsChecked] = useState(false);
+  const router  = useRouter()
+
 
   const handleCategorySelect = (category: CategoryEnum) => {
     setIsChecked(!isChecked);
@@ -23,6 +28,15 @@ export default function SingleCategory({
       removeCategory(category);
     }
   };
+
+
+  useEffect(() => {
+    if(categorySelected.includes(category)){
+      setIsChecked(true)
+    } else {
+      setIsChecked(false)
+    }
+  }, [router.query, categorySelected])
 
   return (
     <li className="flex items-center">

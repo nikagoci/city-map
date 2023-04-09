@@ -30,25 +30,30 @@ export default function Mapbox({
 
   useEffect(() => {
     if(categorySelected.length === 0){
-      router.replace('/')
-    } else {
+        router.push('/')
+        console.log('s')
+    } else if(categorySelected.length > 0){
       router.push({
         pathname: "/",
         query: {category: categorySelected.join('.')}
       })
     }
-  }, [categorySelected])
+    
+  }, [categorySelected, router.query.category])
 
   useEffect(() => {
     const queryCategory = router.query.category as string | undefined;
-    if (queryCategory) {
-      const selectedCategories = queryCategory.split(".") as CategoryEnum[];
+      if (queryCategory) {
+        const selectedCategories = queryCategory.split(".") as CategoryEnum[];
+  
+        setCategorySelected(selectedCategories);
 
-      setCategorySelected(selectedCategories);
-    } else {
-      setCategorySelected([]);
-      
-    }
+      } else {
+        setCategorySelected([]);
+        
+      }
+
+    
   }, [router.query.category]);
 
   return (

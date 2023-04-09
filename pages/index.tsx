@@ -17,8 +17,6 @@ export default function Home({landmarks}: Props) {
   const [locationClicked, setLocationClicked] = useState("");
   const [categorySelected, setCategorySelected] = useState<CategoryEnum[]>([]);
 
-
-  console.log(landmarks)
   return (
     <header>
       <div className="flex w-full px-12 mt-12 gap-x-4">
@@ -31,7 +29,7 @@ export default function Home({landmarks}: Props) {
           />
           <MusicPlayer locationClicked={locationClicked} />
         </div>
-        <FilterMenu setCategorySelected={setCategorySelected} />
+        <FilterMenu setCategorySelected={setCategorySelected} categorySelected={categorySelected} />
       </div>
     </header>
   );
