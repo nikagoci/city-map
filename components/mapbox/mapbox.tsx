@@ -21,8 +21,6 @@ export default function Mapbox({
   landmarks,
   setCategorySelected
 }: Props) {
-  const [allLocation, setAllLocation] =
-    useState<LocationInterface[]>(landmarks);
 
   const router = useRouter()
 
@@ -46,14 +44,9 @@ export default function Mapbox({
     if (queryCategory) {
       const selectedCategories = queryCategory.split(".") as CategoryEnum[];
 
-      const filteredLocations = landmarks.filter((location) =>
-        selectedCategories.includes(location.category)
-      );
       setCategorySelected(selectedCategories);
-      setAllLocation(filteredLocations);
     } else {
       setCategorySelected([]);
-      setAllLocation(landmarks);
       
     }
   }, [router.query.category]);
@@ -70,7 +63,7 @@ export default function Mapbox({
       mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN}
     >
       <UserLocation />
-      {allLocation.map((location) => (
+      {landmarks.map((location) => (
         <Marker
           key={location.name}
           color={detectColor(location.category)}

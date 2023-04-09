@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { GetStaticProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next";
 
 import MusicPlayer from "@/components/audio/music-player";
 import Mapbox from "@/components/mapbox/mapbox";
 import FilterMenu from "@/components/filter/filter-menu";
 import { CategoryEnum, LocationInterface } from "@/libs/interfaces";
 import { getLandmarks } from "@/libs/prisma/landmarks";
+import prisma from "@/libs/prisma";
+import { categoryEnum } from "@prisma/client";
 
 interface Props {
   landmarks: LocationInterface[]
@@ -15,6 +17,8 @@ export default function Home({landmarks}: Props) {
   const [locationClicked, setLocationClicked] = useState("");
   const [categorySelected, setCategorySelected] = useState<CategoryEnum[]>([]);
 
+
+  console.log(landmarks)
   return (
     <header>
       <div className="flex w-full px-12 mt-12 gap-x-4">
@@ -33,9 +37,21 @@ export default function Home({landmarks}: Props) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    const landmarks = await getLandmarks();
+    let category = context.query.category as categoryEnum
+    let categoryArray: categoryEnum | categoryEnum[];
+
+    if(category?.includes('.')){
+      categoryArray = category.split('.') as CategoryEnum[]
+    } else {
+      categoryArray = category
+    }
+    
+    const landmarks = await prisma.landmark.findMany({
+      where: { category: { in: categoryArray } }
+    })
+
 
     return {
       props: {
